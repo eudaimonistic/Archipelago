@@ -97,7 +97,7 @@ def create_level_region(world, name: str, hint: str, shop_locs: list[dict[str, S
 
                     loc2 = get_sell_loc(key2)
                     if loc2 is not None and loc2.code not in level_grouped_locs[shop_id]:
-                        # shop_locs[shop_id].pop(key2, None)
+                        shop_locs[shop_id].pop(key2, None)
                         level_grouped_locs[shop_id][loc2.code] = level_number
                         assigned_locations.append((key2, loc2, shop_id))
             shop_index += 1

@@ -157,16 +157,24 @@ class TCGSimulatorWorld(World):
 
         self.ghost_item_counts = ghost_counts
 
+        source = "Tracker" if hasattr(self.multiworld, "re_gen_passthrough") \
+                              and isinstance(self.multiworld.re_gen_passthrough, dict) else "Gen"
+        visualize_regions(self.multiworld.get_region("Menu", self.player), f"Player{self.player}_{source}.puml",
+                          show_entrance_names=True,
+                          regions_to_highlight=self.multiworld.get_all_state(self.player).reachable_regions[
+                              self.player])
+
     def set_rules(self):
         set_rules(self)
 
-    # def generate_output(self, output_directory: str):
-    #     visualize_regions(self.multiworld.get_region("Menu", self.player), f"Player{self.player}.puml",
-    #                       show_entrance_names=True,
-    #                       regions_to_highlight=self.multiworld.get_all_state(self.player).reachable_regions[
-    #                           self.player])
+    def connect_entrances(self):
+        print("connecting entrances")
+
+    def generate_output(self, output_directory: str):
+        print("Generating Output")
 
     def fill_slot_data(self) -> id:
+        print("Filling Slot Data")
         return {
             "ModVersion": "1.0.0",
             "StartingIds": self.starting_item_ids,
