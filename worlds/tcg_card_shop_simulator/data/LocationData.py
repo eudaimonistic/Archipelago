@@ -364,7 +364,39 @@ def get_generic_action_achievement(startingid: int, prefix: AchievementPrefix, d
 def get_region_action_achievements(prefix: AchievementPrefix, rar: Rarity, expansion: Expansion, startingid) -> List[TCGAchievement]:
     """Generalized for open/sell/grade types — avoids duplication."""
     achievements: List[TCGAchievement] = []
-
+    if prefix == AchievementPrefix.Sell:
+        startingid = startingid + 4
+        achievements.extend(
+            get_generic_action_achievement(startingid, prefix, expansion.name, rar, list(Border), list(Foil), 25, 50,
+                                           100, 150, ))
+        startingid = startingid + 4
+        achievements.extend(
+            get_generic_action_achievement(startingid, prefix, f"{Foil.Foil.name} {expansion.name}", rar, list(Border),
+                                           [Foil.Foil], 10, 20, 50, 100))
+        startingid = startingid + 4
+        achievements.extend(
+            get_generic_action_achievement(startingid, prefix, f"{Border.Base.name} {expansion.name}", rar,
+                                           [Border.Base], list(Foil), 10, 20, 50, 100))
+        startingid = startingid + 4
+        achievements.extend(
+            get_generic_action_achievement(startingid, prefix, f"{Border.FirstEdition.name} {expansion.name}", rar,
+                                           [Border.FirstEdition], list(Foil), 10, 20, 50, 100))
+        startingid = startingid + 4
+        achievements.extend(
+            get_generic_action_achievement(startingid, prefix, f"{Border.Silver.name} {expansion.name}", rar,
+                                           [Border.Silver], list(Foil), 10, 20, 40, 80))
+        startingid = startingid + 4
+        achievements.extend(
+            get_generic_action_achievement(startingid, prefix, f"{Border.Gold.name} {expansion.name}", rar,
+                                           [Border.Gold], list(Foil), 10, 20, 40, 80))
+        startingid = startingid + 4
+        achievements.extend(
+            get_generic_action_achievement(startingid, prefix, f"{Border.EX.name} {expansion.name}", rar, [Border.EX],
+                                           list(Foil), 5, 10, 20, 50))
+        startingid = startingid + 4
+        achievements.extend(
+            get_generic_action_achievement(startingid, prefix, f"{Border.FullArt.name} {expansion.name}", rar,
+                                           [Border.FullArt], list(Foil), 5, 10, 20, 50))
     if prefix == AchievementPrefix.Grade:
         startingid = startingid + 4
         achievements.extend(
@@ -398,7 +430,7 @@ def get_region_action_achievements(prefix: AchievementPrefix, rar: Rarity, expan
         achievements.extend(
             get_generic_action_achievement(startingid, prefix, f"{Border.FullArt.name} {expansion.name}", rar,
                                            [Border.FullArt], list(Foil), 2, 5, 10, 25))
-    else:
+    elif prefix == AchievementPrefix.Open:
         startingid = startingid + 4
         achievements.extend(get_generic_action_achievement(startingid, prefix, expansion.name, rar,list(Border), list(Foil),  50, 100, 500, 1000, ))
         startingid = startingid + 4

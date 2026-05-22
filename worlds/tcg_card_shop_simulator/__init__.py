@@ -153,6 +153,7 @@ class TCGSimulatorWorld(World):
     def create_items(self):
         starting_items, ghost_counts = create_items(self)
         for item in starting_items:
+            print(item.name)
             self.push_precollected(item)
 
         self.ghost_item_counts = ghost_counts

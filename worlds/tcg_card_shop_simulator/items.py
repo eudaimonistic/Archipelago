@@ -6,6 +6,7 @@ from typing import Optional, Dict, List
 
 from BaseClasses import Item, ItemClassification
 from Options import OptionError
+from worlds.noita.locations import amount
 
 
 class TCGSimulatorItem(Item):
@@ -61,7 +62,7 @@ def create_items(world):
 
     starting_items.append(Item("Progressive Shelf", ItemClassification.useful, not_sellable_dict["Progressive Shelf"].code ,world.player))
     starting_items.append(
-        Item("FormatStandard", ItemClassification.useful, format_dict["FormatStandard"].code, world.player))
+        Item("FormatStandard", ItemClassification.progression, format_dict["FormatStandard"].code, world.player))
     #create all items except ghosts and junk
     num = 0
     for item_name, item_data in item_dict.items():
@@ -72,15 +73,23 @@ def create_items(world):
             create_item(world, item_name, item_data.classification, item_data.amount)
 
     if world.options.play_table_checks.value > 0 and not world.options.no_formats:
-        for item_name, item_data in format_dict.items():
-            create_item(world, item_name, item_data.classification, item_data.amount)
+        remaining_formats = copy.deepcopy(format_dict)
+        for item_name, item_data in remaining_formats.items():
+            f_amount = item_data.amount
+            for item in starting_items:
+                if item_name == item.name:
+                    f_amount -= 1
+            if f_amount > 0:
+                create_item(world, item_name, item_data.classification, f_amount)
 
     if total_location_count > 140:
-        for item_name, item_data in not_sellable_dict.items():
-            amount = item_data.amount
+        remaining_items = copy.deepcopy(not_sellable_dict)
+        for item_name, item_data in remaining_items.items():
+            r_amount = item_data.amount
             if item_name in (item.name for item in starting_items):
-                amount -= 1
-            create_item(world, item_name, item_data.classification, amount)
+                r_amount -= 1
+            if r_amount > 0:
+                create_item(world, item_name, item_data.classification, r_amount)
     else:
         remaining_items = copy.deepcopy(not_sellable_dict)
         remaining_items["Warehouse Expansion"].amount = 6
