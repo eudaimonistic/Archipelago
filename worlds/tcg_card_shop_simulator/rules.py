@@ -526,52 +526,52 @@ def get_rules(world):
             "Play Table Found":
                 lambda state:
                 state.has("Progressive Play Table", world.player),
-            f"Generic Sell {card_region_names[CardRegion.BASIC]}":
+            f"Sell {card_region_names[CardRegion.BASIC]}":
                 lambda state:
                 state.has("Progressive Card Table", world.player) and has_card_pack(world, state, CardRegion.BASIC),
-            f"Generic Sell {card_region_names[CardRegion.RARE]}":
+            f"Sell {card_region_names[CardRegion.RARE]}":
                 lambda state:
                 state.has("Progressive Card Table", world.player) and has_card_pack(world, state, CardRegion.RARE),
-            f"Generic Sell {card_region_names[CardRegion.EPIC]}":
+            f"Sell {card_region_names[CardRegion.EPIC]}":
                 lambda state:
                 state.has("Progressive Card Table", world.player) and has_card_pack(world, state, CardRegion.EPIC),
-            f"Generic Sell {card_region_names[CardRegion.LEGENDARY]}":
+            f"Sell {card_region_names[CardRegion.LEGENDARY]}":
                 lambda state:
                 state.has("Progressive Card Table", world.player) and has_card_pack(world, state, CardRegion.LEGENDARY),
-            f"Generic Sell {card_region_names[CardRegion.DESTINY_BASIC]}":
+            f"Sell {card_region_names[CardRegion.DESTINY_BASIC]}":
                 lambda state:
                 state.has("Progressive Card Table", world.player) and has_card_pack(world, state, CardRegion.DESTINY_BASIC),
-            f"Generic Sell {card_region_names[CardRegion.DESTINY_RARE]}":
+            f"Sell {card_region_names[CardRegion.DESTINY_RARE]}":
                 lambda state:
                 state.has("Progressive Card Table", world.player) and has_card_pack(world, state, CardRegion.DESTINY_RARE),
-            f"Generic Sell {card_region_names[CardRegion.DESTINY_EPIC]}":
+            f"Sell {card_region_names[CardRegion.DESTINY_EPIC]}":
                 lambda state:
                 state.has("Progressive Card Table", world.player) and has_card_pack(world, state, CardRegion.DESTINY_EPIC),
-            f"Generic Sell {card_region_names[CardRegion.DESTINY_LEGENDARY]}":
+            f"Sell {card_region_names[CardRegion.DESTINY_LEGENDARY]}":
                 lambda state:
                 state.has("Progressive Card Table", world.player) and has_card_pack(world, state, CardRegion.DESTINY_LEGENDARY),
-            f"Generic Grade {card_region_names[CardRegion.BASIC]}":
+            f"Grade {card_region_names[CardRegion.BASIC]}":
                 lambda state:
                 has_card_pack(world, state, CardRegion.BASIC),
-            f"Generic Grade {card_region_names[CardRegion.RARE]}":
+            f"Grade {card_region_names[CardRegion.RARE]}":
                 lambda state:
                 has_card_pack(world, state, CardRegion.RARE),
-            f"Generic Grade {card_region_names[CardRegion.EPIC]}":
+            f"Grade {card_region_names[CardRegion.EPIC]}":
                 lambda state:
                 has_card_pack(world, state, CardRegion.EPIC),
-            f"Generic Grade {card_region_names[CardRegion.LEGENDARY]}":
+            f"Grade {card_region_names[CardRegion.LEGENDARY]}":
                 lambda state:
                 has_card_pack(world, state, CardRegion.LEGENDARY),
-            f"Generic Grade {card_region_names[CardRegion.DESTINY_BASIC]}":
+            f"Grade {card_region_names[CardRegion.DESTINY_BASIC]}":
                 lambda state:
                 has_card_pack(world, state,CardRegion.DESTINY_BASIC),
-            f"Generic Grade {card_region_names[CardRegion.DESTINY_RARE]}":
+            f"Grade {card_region_names[CardRegion.DESTINY_RARE]}":
                 lambda state:
                 has_card_pack(world, state,CardRegion.DESTINY_RARE),
-            f"Generic Grade {card_region_names[CardRegion.DESTINY_EPIC]}":
+            f"Grade {card_region_names[CardRegion.DESTINY_EPIC]}":
                 lambda state:
                 has_card_pack(world, state,CardRegion.DESTINY_EPIC),
-            f"Generic Grade {card_region_names[CardRegion.DESTINY_LEGENDARY]}":
+            f"Grade {card_region_names[CardRegion.DESTINY_LEGENDARY]}":
                 lambda state:
                 has_card_pack(world, state,CardRegion.DESTINY_LEGENDARY),
             "Standard Games":

@@ -90,7 +90,7 @@ class StartWithWorker(Choice):
     option_axel = 8
     default = 0
 
-class AutoRenovate(Toggle):
+class AutoRenovate(DefaultOnToggle):
     """
     This automatically renovates shop expansions for you when you receive expansions. Never look at RENO BIGG again!
     """
@@ -194,7 +194,7 @@ class CardGradingCheckDifficulty(Choice):
     option_medium = 2
     option_hard = 3
     option_impossible = 4
-    default = 1
+    default = 0
 
 class NoFormats(Toggle):
     """
