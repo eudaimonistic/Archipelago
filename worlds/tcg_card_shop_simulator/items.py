@@ -302,6 +302,8 @@ item_dict: Dict[str, ItemData] = {
     "Progressive Legendary Destiny Pack": ItemData(14, ItemClassification.progression,2),
     "Progressive Legendary Destiny Box": ItemData(15, ItemClassification.progression,2),
     "Progressive Cleanser": ItemData(23, ItemClassification.progression,2),
+    "EVO Blazoar": ItemData(125, ItemClassification.progression,2),
+    "EVO Starfish": ItemData(126, ItemClassification.progression,2),
 }
 
 format_dict: Dict[str, ItemData] = {

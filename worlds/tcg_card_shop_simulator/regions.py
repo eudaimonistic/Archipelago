@@ -192,6 +192,9 @@ def create_regions(world):
             create_region(world, "Full Art Border Games", "Need Full Art Border format", locations.get_play_table_checks(world, Format.FullArtBorder))
             create_region(world, "Foil Games", "Need Foil format", locations.get_play_table_checks(world, Format.Foil))
 
+    if world.options.bulk_box.value > 0:
+        create_region(world, "Bulk Boxes", "Get Workbench", locations.get_bulk_box_checks(world))
+
     return level_grouped_locs
 
 def connect_regions(world, from_name: str, to_name: str, entrance_name: str) -> Entrance:
@@ -249,6 +252,9 @@ def connect_entrances(world):
             connect_regions(world, "Play Tables", "Ex Border Games", "Ex Border Games")
             connect_regions(world, "Play Tables", "Full Art Border Games", "Full Art Border Games")
             connect_regions(world, "Play Tables", "Foil Games", "Foil Games")
+
+    if world.options.bulk_box.value > 0:
+        connect_regions(world, "Level 1-4", "Bulk Boxes", "WorkBench Found")
 
     for l in range(0,world.options.max_level.value, 5):
         if l == 0:
@@ -341,6 +347,10 @@ def ut_recreate_regions(world, pg1_licenses, pg2_licenses, pg3_licenses, tt_lice
             create_region(world, "Full Art Border Games", "Need Full Art Border format",
                           locations.get_play_table_checks(world, Format.FullArtBorder))
             create_region(world, "Foil Games", "Need Foil format", locations.get_play_table_checks(world, Format.Foil))
+
+    if world.options.bulk_box.value > 0:
+        create_region(world, "Bulk Boxes", "Get Workbench", locations.get_bulk_box_checks(world))
+
 
 
 def ut_recreate_level_region(world, name: str, hint: str, shop_locs: list[dict[str, ShopLocation]],level_grouped_locs, starting_region:bool = False, final_region:bool = False):

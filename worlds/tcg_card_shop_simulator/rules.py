@@ -410,6 +410,21 @@ def get_rules(world):
                 lambda state:
                 state.has("Playmat (Katengu White)", world.player),
         },
+
+        "bulk_boxes": {
+            "Tetramon":
+                lambda state:
+                has_card_pack(world, state, CardRegion.BASIC) or
+                has_card_pack(world, state, CardRegion.RARE) or
+                has_card_pack(world, state, CardRegion.EPIC) or
+                has_card_pack(world, state, CardRegion.LEGENDARY),
+            "Destiny":
+                lambda state:
+                has_card_pack(world, state, CardRegion.DESTINY_BASIC) or
+                has_card_pack(world, state, CardRegion.DESTINY_RARE) or
+                has_card_pack(world, state, CardRegion.DESTINY_EPIC) or
+                has_card_pack(world, state, CardRegion.DESTINY_LEGENDARY),
+        },
         "entrances": {
             "Level 5":
                 lambda state:
@@ -610,6 +625,9 @@ def get_rules(world):
             "Foil Games":
                 lambda state:
                 state.has("FormatFoil", world.player),
+            "Bulk Boxes":
+                lambda state:
+                state.has("Workbench", world.player),
         }
     }
     return rules
@@ -635,6 +653,15 @@ def set_rules(world):
         except KeyError as e:
             # print(f"Not in multiworld: {location_name}")
             continue
+
+    if world.options.bulk_box.value > 0:
+        for location_name, rule in rules_lookup["bulk_boxes"].items():
+            try:
+                for n in range(1, world.options.sell_check_amount.value + 1):
+                    world.get_location(f"Sell {n} {"Boxes" if n > 1 else "Box"} of {location_name} Bulk Box").access_rule = rule
+            except KeyError as e:
+                # print(f"Not in multiworld: {location_name}")
+                continue
 
     if world.options.goal.value == 0:
         world.multiworld.get_location(f"Level {world.options.max_level.value}", world.player).place_locked_item(

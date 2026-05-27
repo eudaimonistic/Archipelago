@@ -197,6 +197,7 @@ class TCGSimulatorWorld(World):
             "AutoRenovate": self.options.auto_renovate.value,
             "ExtraStartingItemChecks": self.options.extra_starting_item_checks.value,
             "SellCheckAmount": self.options.sell_check_amount.value,
+            "BulkBoxChecks": self.options.bulk_box.value,
             "CardOpeningCheckDifficulty": self.options.checks_opening_difficulty.value,
             "CardSellingCheckDifficulty": self.options.checks_selling_difficulty.value,
             "CardGradingCheckDifficulty": self.options.checks_grading_difficulty.value,
@@ -258,6 +259,7 @@ class TCGSimulatorWorld(World):
         self.options.auto_renovate.value = slot_data["AutoRenovate"]
         self.options.extra_starting_item_checks.value = slot_data["ExtraStartingItemChecks"]
         self.options.sell_check_amount.value = slot_data["SellCheckAmount"]
+        self.options.bulk_box.value = slot_data["BulkBoxChecks"]
         self.options.checks_opening_difficulty.value = slot_data["CardOpeningCheckDifficulty"]
         self.options.checks_selling_difficulty.value = slot_data["CardSellingCheckDifficulty"]
         self.options.checks_grading_difficulty.value = slot_data["CardGradingCheckDifficulty"]

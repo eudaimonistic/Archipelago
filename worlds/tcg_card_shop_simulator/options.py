@@ -196,6 +196,17 @@ class CardGradingCheckDifficulty(Choice):
     option_impossible = 4
     default = 0
 
+class BulkBoxChecks(Choice):
+    """
+    Will Selling bulk boxed made in the workbench be checks?
+
+    currently any other o
+    """
+    display_name = "Bulk Box Checks"
+    option_disabled = 0
+    option_normal_bulk = 1
+    default = 0
+
 class NoFormats(Toggle):
     """
     Have any format count towards a single play table check pool
@@ -307,6 +318,7 @@ class tcg_cardshop_simulator_option_groups(PerGameCommonOptions):
         AutoRenovate,
         ExtraStartingItemChecks,
         SellCheckAmount,
+        BulkBoxChecks,
         PlayTableChecks,
         NoFormats,
         # DecoShop,
@@ -349,6 +361,7 @@ class TCGSimulatorOptions(PerGameCommonOptions):
     checks_grading_difficulty: CardGradingCheckDifficulty
     play_table_checks: PlayTableChecks
     no_formats: NoFormats
+    bulk_box: BulkBoxChecks
     # deco_shop: DecoShop
     deathlink: DeathLink
     card_sanity: CardSanity

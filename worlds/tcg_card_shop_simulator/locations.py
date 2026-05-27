@@ -4,6 +4,8 @@ from .data.LocationData import *
 
 PLAY_TABLE_START_ID = 300
 LEVEL_START_ID = 200
+BULK_BOX_TETRA = 480
+BULK_BOX_DESTINY = 460
 CARD_OPEN_START_ID = 1000
 CARD_SELL_START_ID = 500
 CARD_GRADE_START_ID = 2000
@@ -185,6 +187,17 @@ def get_grading_card_checks_internal(difficulty:int, card_region: int):
 def get_generic_grading_card_checks(difficulty: int):
     return {}
 
+def get_bulk_box_checks(world):
+    get_bulk_box_checks_internal(world.options.bulk_box.value, world.options.sell_check_amount.value)
+
+def get_bulk_box_checks_internal(bulk_box_option, sell_check_amount):
+    sell_bulk_locs = {}
+    if bulk_box_option > 0:
+        for n in range(1, sell_check_amount + 1):
+            sell_bulk_locs[f"Sell {n} {"Boxes" if n > 1 else "Box"} of Tetramon Bulk Box"] = BULK_BOX_TETRA + n
+            sell_bulk_locs[f"Sell {n} {"Boxes" if n > 1 else "Box"} of Destiny Bulk Box"] = BULK_BOX_DESTINY + n
+    return sell_bulk_locs
+
 def get_all_locations():
     all_locations = {}
 
@@ -235,4 +248,5 @@ def get_all_locations():
         license_checks = get_license_checks_internal(16, 2, item_key, item_data)
         all_locations.update(license_checks)
 
+    all_locations.update(get_bulk_box_checks_internal(1, 16))
     return all_locations
