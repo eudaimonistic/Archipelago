@@ -61,7 +61,7 @@ Item name: order -> of -> unlocks
 
 "Progressive Card Projector": CardDisplayElectronicSmall -> CardDisplayElectronic -> CardDisplayElectronicLarge
 
-### Auto Revovate
+### Auto Renovate
 You can decide if you want the shop to expand automatically or if you have to pay money to expand
 The warehouse is locked beheind the first "Warehouse Expansion" item.
 
