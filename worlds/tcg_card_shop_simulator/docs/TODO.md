@@ -11,3 +11,4 @@
 
 - Decor
 - Tournaments
+- Fast opening and holding more cards
