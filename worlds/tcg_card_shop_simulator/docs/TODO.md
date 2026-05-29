@@ -1,8 +1,7 @@
 1.0.0 release
 - weight filler items
 - test UT more
-- Collection for each pack does not update when you open cards
-- Have start with worker make them free to hire
+- formats dont display after reload
 - typo in bulk boxes
 - update options descriptions
 - test deathlink message
