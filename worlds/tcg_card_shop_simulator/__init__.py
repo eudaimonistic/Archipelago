@@ -15,7 +15,7 @@ from .data.LocationData import *
 
 class TCGSimulatorWeb(WebWorld):
     theme = "partyTime"
-
+    #85957132542149874884
     setup_en = Tutorial(
         tutorial_name="Multiworld Setup Guide",
         description="A guide to setting up the TCG Card Shop Simulator randomizer connected to an Archipelago Multiworld.",
@@ -177,7 +177,7 @@ class TCGSimulatorWorld(World):
     def fill_slot_data(self) -> id:
         print("Filling Slot Data")
         return {
-            "ModVersion": "1.0.0",
+            "ModVersion": "1.1.0",
             "StartingIds": self.starting_item_ids,
             "ShopPg1Mapping": self.pg1_licenses,
             "ShopPg2Mapping": self.pg2_licenses,
@@ -202,6 +202,7 @@ class TCGSimulatorWorld(World):
             "CardSellingCheckDifficulty": self.options.checks_selling_difficulty.value,
             "CardGradingCheckDifficulty": self.options.checks_grading_difficulty.value,
             "PlayTableChecks": self.options.play_table_checks.value,
+            "StartingEmployeeIndex": self.options.start_with_worker.value - 1,
 
             "CardSanity": self.options.card_sanity.value,
 

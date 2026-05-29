@@ -89,6 +89,7 @@ class StartWithWorker(Choice):
     option_benji = 6
     option_lauren = 7
     option_axel = 8
+    option_alexander = 9
     default = 0
 
 class AutoRenovate(DefaultOnToggle):
