@@ -1,5 +1,6 @@
 from dataclasses import dataclass
-from Options import Choice, PerGameCommonOptions,OptionGroup, DeathLink,Range, Toggle, DefaultOnToggle
+from Options import Choice, PerGameCommonOptions, OptionGroup, Range, Toggle, DefaultOnToggle, DeathLink
+
 
 class MaxLevel(Range):
     """
@@ -354,17 +355,17 @@ class TCGSimulatorOptions(PerGameCommonOptions):
     ghost_goal_amount: GhostGoalAmount
     start_with_worker: StartWithWorker
     auto_renovate: AutoRenovate
-    extra_starting_item_checks: ExtraStartingItemChecks
     sell_check_amount: SellCheckAmount
-    checks_opening_difficulty: CardOpeningCheckDifficulty
-    checks_selling_difficulty: CardSellingCheckDifficulty
-    checks_grading_difficulty: CardGradingCheckDifficulty
+    bulk_box: BulkBoxChecks
+    extra_starting_item_checks: ExtraStartingItemChecks
     play_table_checks: PlayTableChecks
     no_formats: NoFormats
-    bulk_box: BulkBoxChecks
-    # deco_shop: DecoShop
-    deathlink: DeathLink
+    checks_opening_difficulty: CardOpeningCheckDifficulty
     card_sanity: CardSanity
+    checks_selling_difficulty: CardSellingCheckDifficulty
+    checks_grading_difficulty: CardGradingCheckDifficulty
+    deathlink: DeathLink
+
     trap_fill: TrapFill
     stink_trap: StinkTrap
     poltergeist_trap: PoltergeistTrap
