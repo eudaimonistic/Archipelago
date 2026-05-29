@@ -433,15 +433,16 @@ def get_rules(world):
             "Level 10":
                 lambda state:
                     has_required_licenses(world, state, 10) and can_sell_ghost(world, state) \
-                     and state.has("Progressive Warehouse Shelf", world.player),#soft logic for placement only. not actually enforced
+                     and state.has("Progressive Warehouse Shelf", world.player) and state.has("Scanner"), #soft logic for placement only. not actually enforced
+
             "Level 15":
                 lambda state:
                     has_required_licenses(world, state, 15) \
-                    and state.has("Checkout Counter", world.player) and state.has("Progressive Auto Scent", world.player), #soft logic for placement only. not actually enforced
+                    and state.has("Checkout Counter", world.player), #soft logic for placement only. not actually enforced
 
             "Level 20":
                 lambda state:
-                    has_required_licenses(world, state, 20),
+                    has_required_licenses(world, state, 20) and state.has("Progressive Auto Scent", world.player),
             "Level 25":
                 lambda state:
                     has_required_licenses(world, state, 25),
