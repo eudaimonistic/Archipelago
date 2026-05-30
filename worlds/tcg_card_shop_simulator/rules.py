@@ -26,13 +26,6 @@ card_region_names = {
 }
 
 
-def has_card_pack(world, state, card_region):
-    card_level = world.pg1_licenses.get((190 if card_region.value == 0 else card_region.value * 2), None)
-    box_level = world.pg1_licenses.get((card_region.value * 2) + 1, None)
-
-    return (card_level is not None and state.has(f"Progressive {card_region_rarity[card_region]} Pack", world.player) and (card_level == 1 or state.can_reach_location(f"Level {card_level}", world.player)))  \
-        or (box_level is not None and state.has(f"Progressive {card_region_rarity[card_region]} Box", world.player) and (box_level == 1 or state.can_reach_location(f"Level {box_level}", world.player)))
-
 def can_sell_ghost(world, state):
     return True if world.options.goal.value != 2 else state.has("Progressive Card Table", world.player)
 
@@ -80,7 +73,28 @@ def has_required_licenses(world, state, current_level_start: int):
     required_count += int((level_2 / 5) * 3)
     required_count += int((level_3 / 5) * 2)
     owned_count = sum(1 for name in item_names if state.has(name, world.player))
-    return owned_count >= required_count
+
+    # soft logic for placement only. not actually enforced
+    has_requirements = True
+    if current_level_start == 5:
+        has_requirements = has_worker(world, state) and state.has("Progressive Shelf", world.player, 2)
+    if current_level_start == 10:
+        has_requirements = can_sell_ghost(world, state) and state.has("Progressive Warehouse Shelf", world.player) and state.has("Scanner", world.player)
+    if current_level_start == 15:
+        has_requirements = state.has("Checkout Counter", world.player)
+    if current_level_start == 20:
+        has_requirements = state.has("Progressive Auto Scent", world.player)
+
+    return owned_count >= required_count and has_requirements
+
+
+def has_card_pack(world, state, card_region):
+    card_level = world.pg1_licenses.get((190 if card_region.value == 0 else card_region.value * 2), None)
+    box_level = world.pg1_licenses.get((card_region.value * 2) + 1, None)
+
+    return (card_level is not None and state.has(f"Progressive {card_region_rarity[card_region]} Pack", world.player) and (card_level == 1 or has_required_licenses(world, state,card_level)))  \
+        or (box_level is not None and state.has(f"Progressive {card_region_rarity[card_region]} Box", world.player) and (box_level == 1 or has_required_licenses(world, state,box_level)))
+
 
 def get_rules(world):
     rules = {
@@ -428,21 +442,18 @@ def get_rules(world):
         "entrances": {
             "Level 5":
                 lambda state:
-                    has_required_licenses(world, state, 5) \
-                    and has_worker(world, state) and state.has("Progressive Shelf", world.player, 2),#soft logic for placement only. not actually enforced
+                    has_required_licenses(world, state, 5),
             "Level 10":
                 lambda state:
-                    has_required_licenses(world, state, 10) and can_sell_ghost(world, state) \
-                     and state.has("Progressive Warehouse Shelf", world.player) and state.has("Scanner", world.player), #soft logic for placement only. not actually enforced
+                    has_required_licenses(world, state, 10),
 
             "Level 15":
                 lambda state:
-                    has_required_licenses(world, state, 15) \
-                    and state.has("Checkout Counter", world.player), #soft logic for placement only. not actually enforced
+                    has_required_licenses(world, state, 15),
 
             "Level 20":
                 lambda state:
-                    has_required_licenses(world, state, 20) and state.has("Progressive Auto Scent", world.player),
+                    has_required_licenses(world, state, 20),
             "Level 25":
                 lambda state:
                     has_required_licenses(world, state, 25),
@@ -496,25 +507,25 @@ def get_rules(world):
                 state.has("Progressive Basic Card Pack", world.player) or state.has("Progressive Basic Card Box", world.player),
             "Rare Card Pack":
                 lambda state:
-                state.has("Progressive Rare Card Pack", world.player),
+                state.has("Progressive Rare Card Pack", world.player) or state.has("Progressive Rare Card Box", world.player),
             "Epic Card Pack":
                 lambda state:
-                state.has("Progressive Epic Card Pack", world.player),
+                state.has("Progressive Epic Card Pack", world.player) or state.has("Progressive Epic Card Box", world.player),
             "Legendary Card Pack":
                 lambda state:
-                state.has("Progressive Legendary Card Pack", world.player),
+                state.has("Progressive Legendary Card Pack", world.player) or state.has("Progressive Legendary Card Box", world.player),
             "Basic Destiny Pack":
                 lambda state:
-                state.has("Progressive Basic Destiny Pack", world.player),
+                state.has("Progressive Basic Destiny Pack", world.player) or state.has("Progressive Basic Destiny Card Box", world.player),
             "Rare Destiny Pack":
                 lambda state:
-                state.has("Progressive Rare Destiny Pack", world.player),
+                state.has("Progressive Rare Destiny Pack", world.player)or state.has("Progressive Rare Destiny Card Box", world.player),
             "Epic Destiny Pack":
                 lambda state:
-                state.has("Progressive Epic Destiny Pack", world.player),
+                state.has("Progressive Epic Destiny Pack", world.player)or state.has("Progressive Epic Destiny Card Box", world.player),
             "Legendary Destiny Pack":
                 lambda state:
-                state.has("Progressive Legendary Destiny Pack", world.player),
+                state.has("Progressive Legendary Destiny Pack", world.player)or state.has("Progressive Legendary Destiny Card Box", world.player),
             "Basic Card Box":
                 lambda state:
                 state.has("Progressive Basic Card Box", world.player),

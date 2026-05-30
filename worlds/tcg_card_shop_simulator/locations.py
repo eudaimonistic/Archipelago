@@ -187,15 +187,20 @@ def get_grading_card_checks_internal(difficulty:int, card_region: int):
 def get_generic_grading_card_checks(difficulty: int):
     return {}
 
-def get_bulk_box_checks(world):
-    return get_bulk_box_checks_internal(world.options.bulk_box.value, world.options.sell_check_amount.value)
+def get_bulk_box_checks(world, level_grouped_locs):
+    has_tetramon = any(item_id in level_grouped_locs[0] for item_id in [190, 1, 2, 3, 4, 5, 6, 7])
+    has_destiny = any(item_id in level_grouped_locs[0] for item_id in [8, 9, 10, 11, 12, 13, 14, 15])
+    return get_bulk_box_checks_internal(world.options.bulk_box.value, world.options.sell_check_amount.value, has_tetramon, has_destiny)
 
-def get_bulk_box_checks_internal(bulk_box_option, sell_check_amount):
+def get_bulk_box_checks_internal(bulk_box_option, sell_check_amount, has_tetramon, has_destiny):
+
     sell_bulk_locs = {}
     if bulk_box_option > 0:
         for n in range(1, sell_check_amount + 1):
-            sell_bulk_locs[f"Sell {n} {"Boxes" if n > 1 else "Box"} of Tetramon Bulk Box"] = BULK_BOX_TETRA + n
-            sell_bulk_locs[f"Sell {n} {"Boxes" if n > 1 else "Box"} of Destiny Bulk Box"] = BULK_BOX_DESTINY + n
+            if has_tetramon:
+                sell_bulk_locs[f"Sell {n} {"Boxes" if n > 1 else "Box"} of Tetramon Bulk Box"] = BULK_BOX_TETRA + n
+            if has_destiny:
+                sell_bulk_locs[f"Sell {n} {"Boxes" if n > 1 else "Box"} of Destiny Bulk Box"] = BULK_BOX_DESTINY + n
     return sell_bulk_locs
 
 def get_all_locations():
@@ -248,5 +253,5 @@ def get_all_locations():
         license_checks = get_license_checks_internal(16, 2, item_key, item_data)
         all_locations.update(license_checks)
 
-    all_locations.update(get_bulk_box_checks_internal(1, 16))
+    all_locations.update(get_bulk_box_checks_internal(1, 16, True, True))
     return all_locations

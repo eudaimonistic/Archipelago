@@ -4,10 +4,10 @@ from Options import Choice, PerGameCommonOptions, OptionGroup, Range, Toggle, De
 
 class MaxLevel(Range):
     """
-    What is the maximum level you would like to reach?
-    This will be rounded up to the nearest multiple of 5
+    Maximum shop level to reach.
+    Rounded up to the nearest multiple of 5.
 
-    The host can limit this setting to 50 for syncs
+    Hosts may limit this to 60 with a Host.yaml setting.
     """
 
     display_name = "Max Level"
@@ -17,8 +17,9 @@ class MaxLevel(Range):
 
 class LicensesPerLevelGroup(Range):
     """
-    Every 5 levels, across all 4 shop pages, how many licenses will be available?
-    these are spread evenly as possible across all 4 shops
+    Number of licenses available every 5 levels.
+
+    Distributed as evenly as possible across all 4 shop pages.
     """
 
     display_name = "Licenses Per Level Group"
@@ -28,9 +29,9 @@ class LicensesPerLevelGroup(Range):
 
 class RequiredLicensesForProgress(Range):
     """
-    How many More Product Licenses are required to unlock the next 5 levels? low numbers are easier.
+    Number of sellable Product Licenses within your current level to unlock the next 5 levels.
 
-    Every 5 levels, you will stop leveling up until you have found this many more sellable licenses unlocked
+    Lower values make progression easier.
     """
 
     display_name = "Required licenses Per Level Group"
@@ -41,9 +42,11 @@ class RequiredLicensesForProgress(Range):
 
 class Goal(Choice):
     """
-    The victory condition for your run.
-    Collection Builder is about getting access to all card packs and collecting a percentage of cards. Minimum Max Level of 20.
-    Sell Ghost Cards hides ghost cards in locations to be found
+    Main victory condition.
+
+    Max Level: Reach the max level
+    Collection Builder: Unlock all packs and collect a target amount of cards.
+    Sell Ghost Cards: Find and sell ghost cards hidden in the multiworld.
     """
 
     display_name = "Goal"
@@ -54,19 +57,21 @@ class Goal(Choice):
 
 class GhostGoalAmount(Range):
     """
-    If on Ghost cards Goal, How many do you need to sell?
-    This causes ghost card items to be seeded in the multiworld
+    Number of ghost cards required for victory.
+
+    Ghost card items will be added to the multiworld.
     """
 
     display_name = "Ghost Goal Amount"
-    range_start = 1
+    range_start = 5
     range_end = 80
     default = 40
 
 class CollectionGoalPercentage(Range):
     """
-    If on Collection Goal, What percentage of the collection do you need to collect after you get all the packs?
-    the host can limit this setting to 50%
+    Collection percentage required after unlocking all packs.
+
+    Hosts may limit this to 60% with a Host.yaml setting.
     """
 
     display_name = "Collection Goal Percentage"
@@ -76,8 +81,9 @@ class CollectionGoalPercentage(Range):
 
 class StartWithWorker(Choice):
     """
-    Choose a worker to start with.
-    Reminder, you still have to pay their salary every day
+    Start with a hired worker.
+
+    You must still pay their daily salary.
     """
     display_name = "Starting Worker"
     option_none = 0
@@ -94,14 +100,15 @@ class StartWithWorker(Choice):
 
 class AutoRenovate(DefaultOnToggle):
     """
-    This automatically renovates shop expansions for you when you receive expansions. Never look at RENO BIGG again!
+    Automatically renovate shop expansions when received. Never look at RENO BIGG again!
     """
     display_name = "Auto Renovate"
 
 class ExtraStartingItemChecks(Range):
     """
-    This setting stops generation failures from very limited starts.
-    The maximum checks per item are capped to 16 regardless of this setting
+    Adds extra early checks to prevent generation failures on limited starts.
+
+    Checks per item are capped at 16 regardless of this setting
     """
 
     display_name = "Extra Starting Item Checks"
@@ -111,9 +118,9 @@ class ExtraStartingItemChecks(Range):
 
 class SellCheckAmount(Range):
     """
-    Selling all of a Box of an ordered product is a check. How many sell checks will each product have?
+    Number of sell checks per product.
 
-    The host can limit this to 8
+    Selling an entire box counts as one check.
     """
     display_name = "Sell Check Amount"
     range_start = 2
@@ -122,13 +129,15 @@ class SellCheckAmount(Range):
 
 class CardOpeningCheckDifficulty(Choice):
     """
-    Open Cards to complete goals for checks. How hard do you want these goals to be?
+    Difficulty of achievement checks for opening cards.
 
-    examples of checks:
-        "First common foil card" is an easy check.
-        "open 20 gold border foils from legendary packs" is medium
-        "Collect all 12 versions of one card" is hard
-        "Collect all full arts from a pack" is impossible
+    There are around 10 achievements for each difficulty. Harder options include easier achievements.
+
+    Example achievements:
+    Easy: First common foil
+    Medium: Open 20 gold border foils from legendary packs
+    Hard: Collect all 12 versions of a card
+    Impossible: Collect 100 full arts from a pack
     """
     display_name = "Card Opening Check Difficulty"
     option_disabled = 0
@@ -140,19 +149,24 @@ class CardOpeningCheckDifficulty(Choice):
 
 class CardSanity(Choice):
     """
-    Enables each card to be a unique check.
-    Normally foils will count the same as the non-foil card. "Unique foils" will cause the foil version to be a unique check
+    Individual cards become location checks.
 
+    Enabled:
+    Different card variants count as separate checks based on Card Opening difficulty.
 
-    This follows your card opening difficulty set above. Below is what happens depending on that option.
-    Each version adds 242 checks
+    Unique Foils:
+    Foil cards also count as separate checks.
 
-    Card Opening "Easy": Basic cards are checks
-    Card Opening "Medium": Basic, 1st Edition, and Silver Edition cards are checks
-    Card Opening "Hard": basic, 1st Edition, Silver Edition, gold edition are checks
-    Card Opening "Impossible": All cards are checks
+    Each enabled card variant adds 242 checks.
+    Impossible difficulty with Unique Foils adds 2904 checks.
 
-    At Card Opening Difficulty "Impossible" this adds 1452 checks. doubled to 2904 if on foil setting
+    This is based on your choice of card opening difficulty above.
+
+    Card variants by opening difficulty:
+    Easy: Basic
+    Medium: Basic, 1st Edition, Silver Edition
+    Hard: Basic, 1st Edition, Silver Edition, Gold Edition
+    Impossible: All Cards
     """
     display_name = "Card Sanity"
     option_disabled = 0
@@ -162,13 +176,15 @@ class CardSanity(Choice):
 
 class CardSellingCheckDifficulty(Choice):
     """
-    Sell Cards to complete goals for checks. How hard do you want these goals to be?
+    Difficulty of achievement checks for selling cards.
 
-    examples of checks:
-        "Sell 20 commons" is an easy check.
-        "Sell 100 foils" is medium
-        "sell 1000 cards" is hard
-        "sell 50 foil full arts" is impossible
+    There are around 10 achievements for each difficulty. Harder options include easier achievements.
+
+    Example goals:
+    Easy: Sell 20 commons
+    Medium: Sell 100 foils
+    Hard: Sell 1000 cards
+    Impossible: Sell 50 foil full arts
     """
     display_name = "Card Selling Check Difficulty"
     option_disabled = 0
@@ -180,15 +196,17 @@ class CardSellingCheckDifficulty(Choice):
 
 class CardGradingCheckDifficulty(Choice):
     """
-    Grade Cards to complete goals for checks. How hard do you want these goals to be?
+    Difficulty of achievement checks for grading cards.
 
-    WARNING THESE TAKE A LONG TIME TO DO. WAYYYYYY BETTER FOR ASYNCS
+    There are around 10 achievements for each difficulty. Harder options include easier achievements.
 
-    examples of checks:
-        "Grade 20 commons" is an easy check.
-        "Grade 100 foils" is medium
-        "Grade 1000 cards" is hard
-        "Grade 50 foil full arts" is impossible
+    Grading checks take much longer and are better for async games.
+
+    Example goals:
+    Easy: Grade 10 commons
+    Medium: Grade 50 foils
+    Hard: Grade 100 cards
+    Impossible: Grade 20 foil full arts
     """
     display_name = "Card Grading Check Difficulty"
     option_disabled = 0
@@ -200,9 +218,7 @@ class CardGradingCheckDifficulty(Choice):
 
 class BulkBoxChecks(Choice):
     """
-    Will Selling bulk boxed made in the workbench be checks?
-
-    currently any other o
+    Selling bulk boxes from the workbench can grant checks.
     """
     display_name = "Bulk Box Checks"
     option_disabled = 0
@@ -211,29 +227,71 @@ class BulkBoxChecks(Choice):
 
 class NoFormats(Toggle):
     """
-    Have any format count towards a single play table check pool
+    All play table formats share one combined check pool.
     """
     display_name = "No Formats"
 
 class PlayTableChecks(Range):
     """
-    How many checks are there for each format on play tables?
+    Number of checks available per play table format.
     """
     display_name = "Number of PlayTable Checks"
     range_start = 0
     range_end = 15
     default = 10
 
-# class DecoShop(Toggle):
-#     """
-#     Turns the Deco Screen into a shop you can buy AP items in
-#     """
-#     display_name = "Decoration Shop"
+class MoneyBags(Range):
+    """
+    Weight for filler items that give money.
+    """
+    display_name = "Money Filler"
+    range_start = 0
+    range_end = 100
+    default = 50
+
+class XpBoosts(Range):
+    """
+    Weight for filler items that give shop XP.
+    """
+    display_name = "XP Filler"
+    range_start = 0
+    range_end = 100
+    default = 50
+
+
+class RandomNewCard(Range):
+    """
+    Weight for filler items that give a random new card.
+    """
+    display_name = "Random Card Filler"
+    range_start = 0
+    range_end = 100
+    default = 50
+
+class CustomerWalletSize(Range):
+    """
+    Weight for filler items that increase customer spending money.
+    """
+    display_name = "Customer Wallet Size Filler"
+    range_start = 0
+    range_end = 100
+    default = 50
+
+class CardLuck(Range):
+    """
+     Weight for filler items that increase card luck.
+
+    At max card luck (100) you have the same chance to open a non-foil basic card and a foil full art card
+    """
+    display_name = "Card Luck Filler"
+    range_start = 0
+    range_end = 100
+    default = 50
 
 
 class TrapFill(Range):
     """
-    Determines the percentage of the junk fill which is filled with traps.
+    Percentage of junk items replaced with traps.
     """
     display_name = "Trap Fill Percentage"
     range_start = 0
@@ -243,8 +301,9 @@ class TrapFill(Range):
 class StinkTrap(Range):
     """
     You know what this does. Stinky.
-    Determines the percentage of Traps are Stink Traps.
-    Traps must be enabled for this to have any effect.
+    Weight for traps that are Stink Traps.
+
+    Requires traps to be enabled.
     """
     display_name = "Stink Trap"
     range_start = 0
@@ -254,40 +313,37 @@ class StinkTrap(Range):
 class PoltergeistTrap(Range):
     """
     Something is messing with the lights
-    Determines the percentage of Traps are Poltergeist Traps.
-    Traps must be enabled for this to have any effect.
+    Weight for traps that are Poltergeist Traps.
+
+    Requires traps to be enabled.
     """
     display_name = "Poltergeist Trap"
     range_start = 0
     range_end = 100
     default = 50
 
-class MarketChangeTrap(Range):
-    """
-    Causes prices to randomize
-    Determines the percentage of Traps are Market Change Traps.
-    Traps must be enabled for this to have any effect.
-    """
-    display_name = "Market Change Trap"
-    range_start = 0
-    range_end = 100
-    default = 50
-class CurrencyTrap(Range):
-    """
-    Causes Currency to Randomize
-    Determines the percentage of Traps are Currency Traps.
-    Traps must be enabled for this to have any effect.
-    """
-    display_name = "Currency Trap"
-    range_start = 0
-    range_end = 100
-    default = 0
+# class MarketChangeTrap(Range):
+#     """
+#     Not used
+#     """
+#     display_name = "Market Change Trap"
+#     range_start = 0
+#     range_end = 100
+#     default = 50
+# class CurrencyTrap(Range):
+#     """
+#     Not used
+#     """
+#     display_name = "Currency Trap"
+#     range_start = 0
+#     range_end = 100
+#     default = 0
 
 class DecreaseCardLuckTrap(Range):
     """
-    Lowers your card luck
-    Determines the percentage of Traps are Decrease Card Luck Traps.
-    Traps must be enabled for this to have any effect.
+    Weight for traps that reduce card luck.
+
+    Requires traps to be enabled.
     """
     display_name = "Reduce Card Luck Trap"
     range_start = 0
@@ -296,9 +352,10 @@ class DecreaseCardLuckTrap(Range):
 
 class CreditCardFailureTrap(Range):
     """
-    Credit cards fail to work for a little while
-    Determines the percentage of Traps are Credit Card Failure Traps.
-    Traps must be enabled for this to have any effect.
+    Sometimes they only have cash.
+    Weight for traps that disable credit card payments temporarily.
+
+    Requires traps to be enabled.
     """
     display_name = "Credit Card Failure Trap"
     range_start = 0
@@ -336,13 +393,20 @@ class tcg_cardshop_simulator_option_groups(PerGameCommonOptions):
     OptionGroup("Death Link", [
         DeathLink
     ])
-    OptionGroup("Filler and Traps", [
+    OptionGroup("Filler", [
+        MoneyBags,
+        XpBoosts,
+        RandomNewCard,
+        CustomerWalletSize,
+        CardLuck
+    ])
+    OptionGroup("Traps", [
         TrapFill,
         StinkTrap,
         PoltergeistTrap,
         CreditCardFailureTrap,
-        MarketChangeTrap,
-        CurrencyTrap,
+        # MarketChangeTrap,
+        # CurrencyTrap,
         DecreaseCardLuckTrap
     ])
     
@@ -367,10 +431,16 @@ class TCGSimulatorOptions(PerGameCommonOptions):
     checks_grading_difficulty: CardGradingCheckDifficulty
     deathlink: DeathLink
 
+    money_filler: MoneyBags
+    xp_filler: XpBoosts
+    card_filler: RandomNewCard
+    wallet_filler: CustomerWalletSize
+    luck_filler: CardLuck
+
     trap_fill: TrapFill
     stink_trap: StinkTrap
     poltergeist_trap: PoltergeistTrap
     credit_card_failure_trap: CreditCardFailureTrap
-    market_change_trap: MarketChangeTrap
-    currency_trap: CurrencyTrap
+    # market_change_trap: MarketChangeTrap
+    # currency_trap: CurrencyTrap
     decrease_card_luck_trap: DecreaseCardLuckTrap

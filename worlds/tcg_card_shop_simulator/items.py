@@ -152,18 +152,30 @@ def create_items(world):
     # -1 on LevelGoal because I place a victory item at the goal level
     junk_count = remaining_locations - trap_count - (1 if world.options.goal == 0 else 0)
 
-    print(f"junk count {junk_count + trap_count}")
+    #print(f"junk count {junk_count + trap_count}")
 
-    trap_weights = {
-        "Stink Trap": world.options.stink_trap,
-        "Poltergeist Trap": world.options.poltergeist_trap,
-        "Credit Card Failure Trap": world.options.credit_card_failure_trap,
-        "Market Change Trap":world.options.market_change_trap,
-        "Decrease Card Luck":world.options.decrease_card_luck_trap,
-        "Currency Trap":world.options.currency_trap
+    junk_weights = {
+        "Small Xp": world.options.xp_filler.value * .5,
+        "Small Money": world.options.money_filler.value * .5,
+        "Medium Money": world.options.money_filler.value * .3,
+        "Medium Xp": world.options.xp_filler.value * .3,
+        "Large Money": world.options.money_filler.value * .2,
+        "Large Xp": world.options.xp_filler.value * .2,
+        "Random Card": world.options.card_filler.value,
+        "Progressive Customer Money": world.options.wallet_filler.value,
+        "Increase Card Luck": world.options.luck_filler.value
     }
 
-    junk = get_junk_item_names(world.multiworld.random, junk_count)
+    trap_weights = {
+        "Stink Trap": world.options.stink_trap.value,
+        "Poltergeist Trap": world.options.poltergeist_trap.value,
+        "Credit Card Failure Trap": world.options.credit_card_failure_trap.value,
+        # "Market Change Trap":world.options.market_change_trap.value,
+        "Decrease Card Luck":world.options.decrease_card_luck_trap.value,
+        # "Currency Trap":world.options.currency_trap.value
+    }
+
+    junk = get_junk_item_names(junk_weights,world.multiworld.random, junk_count)
 
     for name in junk:
         create_item(world, name, ItemClassification.filler)
@@ -173,11 +185,11 @@ def create_items(world):
         for name in trap:
             create_item(world, name, ItemClassification.trap)
     world.multiworld.itempool += world.itempool
-    if len(world.itempool) > total_location_count:
-        print(f"WARNING: Overfilled pool by {len(world.itempool) - total_location_count} items!")
+    #if len(world.itempool) > total_location_count:
+       # print(f"WARNING: Overfilled pool by {len(world.itempool) - total_location_count} items!")
     return starting_items, ghost_counts
 
-def get_junk_item_names(rand, k: int) -> str:
+def get_junk_item_names(junk_weights,rand, k: int) -> str:
     junk = rand.choices(
         list(junk_weights.keys()),
         weights=list(junk_weights.values()),
@@ -466,17 +478,7 @@ trap_dict: Dict[str, ItemData] = {
     "Currency Trap": ItemData(325, ItemClassification.trap),
 }
 
-junk_weights = {
-    "Small Xp": 25,
-    "Small Money": 25,
-    "Medium Money": 15,
-    "Medium Xp": 15,
-    "Large Money": 10,
-    "Large Xp": 10,
-    "Random Card": 50,
-    "Progressive Customer Money": 50,
-    "Increase Card Luck": 0
-}
+
 
 full_item_dict: Dict[str, ItemData] = {**item_dict, **not_sellable_dict, **random_ghost_dict, **ghost_dict, **junk_dict, **trap_dict, **format_dict}
 

@@ -32,9 +32,12 @@ class TCGSimulatorSettings(settings.Group):
         """This removes the Impossible level checks from your multiworlds."""
     class AllowCardSanity(settings.Bool):
         """Card Sanity adds thousands of pure randomness checks. This option disables this sanity in your multiworlds"""
+    class ImposeGoalLimits(settings.Bool):
+        """This limits the max level to 60, and how many cards they need to collect to 60% of the cards in the game"""
 
     limit_impossible_checks: Union[LimitChecksDifficultyToHard, bool] = False
     allow_card_sanity: Union[AllowCardSanity, bool] = True
+    impose_goal_limits: Union[ImposeGoalLimits, bool] = False
 
 
 
@@ -109,6 +112,12 @@ class TCGSimulatorWorld(World):
         if self.options.goal.value == 1 and self.options.max_level.value < 20:
             self.options.max_level.value = 20
 
+        if self.settings.impose_goal_limits and self.options.max_level.value > 60:
+            self.options.max_level.value = 60
+
+        if self.options.goal.value == 1 and self.settings.impose_goal_limits and self.options.collection_goal_percentage.value > 60:
+            self.options.collection_goal_percentage.value = 60
+
         if self.options.extra_starting_item_checks.value + self.options.sell_check_amount.value > 16:
             self.options.extra_starting_item_checks.value = 16-self.options.sell_check_amount.value
 
@@ -119,9 +128,16 @@ class TCGSimulatorWorld(World):
                 self.options.checks_selling_difficulty_difficulty = CardSellingCheckDifficulty.option_hard
             if self.options.checks_grading_difficulty.value > 3:
                 self.options.checks_grading_difficulty = CardGradingCheckDifficulty.option_hard
-            print("limiting checks to hard")
 
-        if self.options.trap_fill.value != 0 and self.options.stink_trap.value == 0 and self.options.poltergeist_trap.value == 0 and self.options.decrease_card_luck_trap == 0 and self.options.market_change_trap == 0 and self.options.currency_trap == 0:
+        if self.options.card_sanity.value > 0 and not self.settings.allow_card_sanity:
+            self.options.card_sanity.value = 0
+
+        if self.options.money_filler.value == 0 and self.options.xp_filler.value == 0 and \
+                self.options.wallet_filler == 0 and self.options.luck_filler == 0 and self.options.card_filler == 0:
+            raise OptionError("All Filler Weights are Zero")
+
+        if self.options.trap_fill.value != 0 and self.options.stink_trap.value == 0 and self.options.poltergeist_trap.value == 0 \
+                and self.options.decrease_card_luck_trap.value == 0:
             raise OptionError("All Trap Weights are Zero")
 
         if self.options.max_level.value % 5 != 0:
@@ -146,6 +162,17 @@ class TCGSimulatorWorld(World):
 
 
     def create_item(self, item: str) -> TCGSimulatorItem:
+        junk_weights = {
+            "Small Xp": self.options.xp_filler.value * .5,
+            "Small Money": self.options.money_filler.value * .5,
+            "Medium Money": self.options.money_filler.value * .3,
+            "Medium Xp": self.options.xp_filler.value * .3,
+            "Large Money": self.options.money_filler.value * .2,
+            "Large Xp": self.options.xp_filler.value * .2,
+            "Random Card": self.options.card_filler.value,
+            "Progressive Customer Money": self.options.wallet_filler.value,
+            "Increase Card Luck": self.options.luck_filler.value
+        }
         if item in junk_weights.keys():
             return TCGSimulatorItem(item, ItemClassification.filler, self.item_name_to_id[item], self.player)
         return TCGSimulatorItem(item, ItemClassification.progression, self.item_name_to_id[item], self.player)
@@ -153,29 +180,35 @@ class TCGSimulatorWorld(World):
     def create_items(self):
         starting_items, ghost_counts = create_items(self)
         for item in starting_items:
-            print(item.name)
+            #print(item.name)
             self.push_precollected(item)
 
         self.ghost_item_counts = ghost_counts
 
-        source = "Tracker" if hasattr(self.multiworld, "re_gen_passthrough") \
-                              and isinstance(self.multiworld.re_gen_passthrough, dict) else "Gen"
-        visualize_regions(self.multiworld.get_region("Menu", self.player), f"Player{self.player}_{source}.puml",
-                          show_entrance_names=True,
-                          regions_to_highlight=self.multiworld.get_all_state(self.player).reachable_regions[
-                              self.player])
+        # source = "Tracker" if hasattr(self.multiworld, "re_gen_passthrough") \
+        #                       and isinstance(self.multiworld.re_gen_passthrough, dict) else "Gen"
+        # visualize_regions(self.multiworld.get_region("Menu", self.player), f"Player{self.player}_{source}.puml",
+        #                   show_entrance_names=True,
+        #                   regions_to_highlight=self.multiworld.get_all_state(self.player).reachable_regions[
+        #                       self.player])
+
 
     def set_rules(self):
         set_rules(self)
 
-    def connect_entrances(self):
-        print("connecting entrances")
+    #def connect_entrances(self):
+       # print("connecting entrances")
 
-    def generate_output(self, output_directory: str):
-        print("Generating Output")
+    #def generate_output(self, output_directory: str):
+        #print("Generating Output")
+        # visualize_regions(self.multiworld.get_region("Menu", self.player), f"Player{self.player}_output.puml",
+        #                   show_entrance_names=True,
+        #                   regions_to_highlight=self.multiworld.get_all_state(self.player).reachable_regions[
+        #                       self.player])
+
 
     def fill_slot_data(self) -> id:
-        print("Filling Slot Data")
+        #print("Filling Slot Data")
         return {
             "ModVersion": "1.1.0",
             "StartingIds": self.starting_item_ids,

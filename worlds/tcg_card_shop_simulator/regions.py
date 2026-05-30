@@ -193,7 +193,7 @@ def create_regions(world):
             create_region(world, "Foil Games", "Need Foil format", locations.get_play_table_checks(world, Format.Foil))
 
     if world.options.bulk_box.value > 0:
-        create_region(world, "Bulk Boxes", "Get Workbench", locations.get_bulk_box_checks(world))
+        create_region(world, "Bulk Boxes", "Get Workbench", locations.get_bulk_box_checks(world, level_grouped_locs))
 
     return level_grouped_locs
 
@@ -349,7 +349,7 @@ def ut_recreate_regions(world, pg1_licenses, pg2_licenses, pg3_licenses, tt_lice
             create_region(world, "Foil Games", "Need Foil format", locations.get_play_table_checks(world, Format.Foil))
 
     if world.options.bulk_box.value > 0:
-        create_region(world, "Bulk Boxes", "Get Workbench", locations.get_bulk_box_checks(world))
+        create_region(world, "Bulk Boxes", "Get Workbench", locations.get_bulk_box_checks(world, level_grouped_locs))
 
 
 
@@ -371,7 +371,7 @@ def ut_recreate_level_region(world, name: str, hint: str, shop_locs: list[dict[s
                     (k for k, v in shop_locs[shop_id].items() if v.code == code),
                     None
                 )
-                print(world.starting_item_ids)
+                #print(world.starting_item_ids)
                 add_locations(world, region, locations.get_license_checks(world, key, loc, loc.code in world.starting_item_ids))
 
     add_locations(world, region, locations.get_level_checks(world, level_number, final_region))
