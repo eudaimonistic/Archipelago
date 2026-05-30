@@ -1,10 +1,9 @@
 1.0.0 release
 
-- card collection total not correct
-- achievement not checking if your at the level
-- format Earth item missed by client
-- -play table checks unknown 416, 417
-- format stuck on silver border doesnt get set when I change it
+- card sanity collection UI total not correct
+- achievement UI not checking if your at the level
+- format Earth item not displayed correctly in UI
+- Scanner Ids not synced
 
 1.1 release
 
