@@ -1,5 +1,7 @@
 1.0.0 release
 
+card collection total not correct
+
 1.1 release
 
 - Decor
