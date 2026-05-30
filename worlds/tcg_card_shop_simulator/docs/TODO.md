@@ -1,6 +1,7 @@
 1.0.0 release
 
 card collection total not correct
+achievement not checking if your at the level
 
 1.1 release
 
