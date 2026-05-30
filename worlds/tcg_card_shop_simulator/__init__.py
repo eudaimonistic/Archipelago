@@ -1,4 +1,4 @@
-from typing import ClassVar, Union, Set
+from typing import ClassVar, Union, Set, Any
 
 import settings
 from Options import OptionError
@@ -24,7 +24,7 @@ class TCGSimulatorWeb(WebWorld):
         link="setup/en",
         authors=["FyreDay"]
     )
-
+    option_groups = tcg_cardshop_simulator_option_groups
     tutorials = [setup_en]
 
 class TCGSimulatorSettings(settings.Group):
@@ -49,8 +49,6 @@ class TCGSimulatorWorld(World):
     web = TCGSimulatorWeb()
     options_dataclass = TCGSimulatorOptions
     options: TCGSimulatorOptions
-
-    option_groups = tcg_cardshop_simulator_option_groups
 
     settings: ClassVar[TCGSimulatorSettings]
 

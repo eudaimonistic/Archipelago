@@ -362,8 +362,7 @@ class CreditCardFailureTrap(Range):
     range_end = 100
     default = 50
 
-@dataclass
-class tcg_cardshop_simulator_option_groups(PerGameCommonOptions):
+tcg_cardshop_simulator_option_groups= [
     OptionGroup("Goal Options", [
         MaxLevel,
         LicensesPerLevelGroup,
@@ -392,14 +391,14 @@ class tcg_cardshop_simulator_option_groups(PerGameCommonOptions):
     ]),
     OptionGroup("Death Link", [
         DeathLink
-    ])
+    ]),
     OptionGroup("Filler", [
         MoneyBags,
         XpBoosts,
         RandomNewCard,
         CustomerWalletSize,
         CardLuck
-    ])
+    ]),
     OptionGroup("Traps", [
         TrapFill,
         StinkTrap,
@@ -408,7 +407,8 @@ class tcg_cardshop_simulator_option_groups(PerGameCommonOptions):
         # MarketChangeTrap,
         # CurrencyTrap,
         DecreaseCardLuckTrap
-    ])
+    ]),
+]
     
 @dataclass
 class TCGSimulatorOptions(PerGameCommonOptions):
