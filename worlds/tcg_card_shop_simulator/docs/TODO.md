@@ -2,7 +2,6 @@
 
 - card sanity collection UI total not correct
 - achievement UI not checking if your at the level
-- format Earth item not displayed correctly in UI
 - Scanner Ids not synced
 
 1.1 release
